@@ -1,0 +1,261 @@
+﻿<div>
+    <div class="Principal Transicion" style="padding-top: 75px !important;">
+        <div class="col-md-12">
+            <div class="col-md-3" style="float:right; margin-left:-1%; padding-right:0px;">
+                <button class="btn btn-primary" id="boton" style="width:100%; height:42px;  margin-left:-155%;" ng-click="AbrirModal()">Registrar Coordinación</button>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-md-3" style="float:right;">
+                        <input class="form-control" ng-keyup="Filter($event)" id="Buscar" />
+                    </div>
+                    <button class="btn btn-default" type="button" id="eliminar" ng-click="CambiarEstadoSeleccionados()" title="Inhabilitar Registros" style="height: 34px;">
+                        <i class="material-icons">delete</i>
+                    </button>
+                    <button class="btn btn-default" type="button" id="modificar" ng-click="Modificar()" title="Editar Registro" style="height: 34px;">
+                        <i class="material-icons">border_color</i>
+                    </button>
+                    <br />
+                    <br />
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width:20px"></th>
+                                <th class="paginationclass" style="font-weight:bold;">Cédula</th>
+                                <th class="paginationclass" style="font-weight:bold;">Nombre</th>
+                                <th class="paginationclass" style="font-weight:bold;">Apellido</th>
+                                <th class="paginationclass" style="font-weight:bold;">Teléfono</th>
+                                <th class="paginationclass" style="font-weight:bold;">Correo</th>
+                            </tr>
+                        </thead>
+                        <tbody class="searchable">
+                            <tr class="paginationclass" ng-repeat="datalist in datalists | pagination: curPage * pageSize | limitTo: pageSize">
+                                <td><input ng-model="datalist.Seleccionado" type="checkbox" id="{{datalist.Parametro1}}" /></td>
+                                <td>{{datalist.Parametro3 | uppercase}}</td>
+                                <td>{{datalist.Parametro4 | uppercase}}</td>
+                                <td>{{datalist.Parametro5 | uppercase}}</td>
+                                <td>{{datalist.Parametro7 | uppercase}}</td>
+                                <td>{{datalist.Parametro6 | uppercase}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination pagination-centered" ng-show="datalists.length" style="float:right">
+                        <ul class="pagination-controle pagination">
+                            <li>
+                                <button type="button" class="btn btn-primary" ng-disabled="curPage == 0"
+                                        ng-click="curPage=curPage-1">
+                                    Anterior
+                                </button>
+                            </li>
+                            <li>
+                                <span>Pág {{curPage + 1}} de {{ numberOfPages() }}</span>
+                            </li>
+                            <li>
+                                <button type="button" class="btn btn-primary"
+                                        ng-disabled="curPage >= datalists.length/pageSize - 1"
+                                        ng-click="curPage = curPage+1">
+                                    Siguiente
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--modal registrar Coordinación-->
+<div class="modal fade" id="ModalCoordinacion" role="dialog" style="margin-top:-2%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="height:80px; padding:5px;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <center><h4 style="font-weight: bold;">Registrar Coordinación</h4></center>
+            </div>
+            <div class="modal-body">
+                <form name="coordinacion1" id="coordinacion1">
+                    <div class="form-group">
+                        <label>Seleccione Centro</label>
+                        <select class="form-control" id="listas" ng-required="true" ng-model="Centro.IdCentro" style="float:right;">
+                            <option ng-repeat="centros in Centro" class="{{centros.NombreCentro}}" value="{{centros.IdCentro}}">{{centros.NombreCentro}}</option>
+                        </select>
+                    </div>
+                    <br/><br />
+                    <div class="form-group">
+                        <label>Seleccione Área</label>
+                        <select class="form-control" id="listas" ng-required="true" ng-model="Area.IdArea" style="float:right;">
+                            <option ng-repeat="areas in Area" class="{{areas.Nombre}}" value="{{areas.IdArea}}">{{areas.Nombre}}</option>
+                        </select>
+                    </div>
+                    <br />
+                    <div class="form-group" style="margin-top:5%">
+                        <div ng-class="{'has-error':coordinacion1.cedula.$invalid && coordinacion1.cedula.$touched, 'has-error2':coordinacion1.cedula.$error.maxlength}">
+                            <label>Cédula</label>
+                            <input class="form-control" ng-required="true" name="cedula" id="cedula" type="number" ng-maxlength="10" ng-model="Coordinacion.Cedula" />
+                            <span ng-hide="coordinacion1.cedula.$error.maxlength">
+                                <span ng-if="coordinacion1.cedula.$invalid && coordinacion1.cedula.$dirty" class="help-block">Ingrese la cédula del coordinador</span>
+                            </span>
+                            <span ng-if="coordinacion1.cedula.$error.maxlength" class="help-block">La cédula puede tener máximo 10 caracteres </span>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:5%">
+                        <div ng-class="{'has-error':coordinacion1.nombre1.$invalid && coordinacion1.nombre1.$touched, 'has-error2':coordinacion1.nombre1.$error.maxlength}">
+                            <label>Nombre</label>
+                            <input class="form-control" ng-required="true" name="nombre1" id="nombre1" type="text" ng-maxlength="50" ng-model="Coordinacion.Nombre" />
+                            <span ng-hide="coordinacion1.nombre1.$error.maxlength">
+                                <span ng-if="coordinacion1.nombre1.$invalid && coordinacion1.nombre1.$dirty" class="help-block">Ingrese el nombre del coordinador</span>
+                            </span>
+                            <span ng-if="coordinacion1.nombre1.$error.maxlength" class="help-block">El nombre puede tener máximo 50 caracteres </span>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:5%">
+                        <div ng-class="{'has-error':coordinacion1.apellido.$invalid && coordinacion1.apellido.$touched, 'has-error2':coordinacion1.apellido.$error.maxlength}">
+                            <label>Apellido</label>
+                            <input class="form-control" ng-required="true" name="apellido" id="apellido" type="text" ng-maxlength="50" ng-model="Coordinacion.Apellido" />
+                            <span ng-hide="coordinacion1.apellido.$error.maxlength">
+                                <span ng-if="coordinacion1.apellido.$invalid && coordinacion1.apellido.$dirty" class="help-block">Ingrese el apellido del coordinador</span>
+                            </span>
+                            <span ng-if="coordinacion1.apellido.$error.maxlength" class="help-block">El apellido puede tener máximo 50 caracteres </span>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:5%">
+                        <div ng-class="{'has-error':coordinacion1.telefono1.$invalid && coordinacion1.telefono1.$touched, 'has-error2':coordinacion1.telefono1.$error.maxlength}">
+                            <label>Teléfono</label>
+                            <input class="form-control" ng-required="true" name="telefono1" id="telefono1" type="number" ng-maxlength="10" ng-model="Coordinacion.Telefono" />
+                            <span ng-hide="coordinacion1.telefono1.$error.maxlength">
+                                <span ng-if="coordinacion1.telefono1.$invalid && coordinacion1.telefono1.$dirty" class="help-block">Ingrese el teléfono del coordinador</span>
+                            </span>
+                            <span ng-if="coordinacion1.telefono1.$error.maxlength" class="help-block">El número de teléfono puede tener máximo 10 caracteres </span>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:5%">
+                        <div ng-class="{'has-error':coordinacion1.correo2.$invalid && coordinacion1.correo2.$touched, 'has-error2':coordinacion1.correo2.$error.maxlength}">
+                            <label>Correo</label>
+                            <input class="form-control" ng-required="true" name="correo2" id="correo2" type="email" ng-maxlength="50" ng-model="Coordinacion.Correo" />
+                            <span ng-hide="coordinacion1.correo2.$error.maxlength">
+                                <span ng-if="coordinacion1.correo2.$invalid && coordinacion1.correo2.$dirty" class="help-block">Ingrese un correo válido</span>
+                            </span>
+                            <span ng-if="coordinacion1.correo2.$error.maxlength" class="help-block">El correo puede tener máximo 50 caracteres </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="Guardar()">Guardar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--modal editar-->
+<div class="modal fade" id="ModalEditar" role="dialog" style="margin-top:-2%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="height:50px; padding:5px;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <center><h4 style="font-weight: bold;">Editar Coordinación</h4></center>
+            </div>
+            <div class="modal-body">
+                <form name="coordinacion2" id="coordinacion2">
+                    <div class="form-group">
+                        <label>Seleccione Área</label>
+                        <select class="form-control" id="AreaLista" ng-required="true" ng-model="Area.IdArea" style="float:right;">
+                            <option ng-repeat="areas in Area" class="{{areas.Nombre}}" value="{{areas.IdArea}}">{{areas.Nombre}}</option>
+                        </select>
+                    </div>
+                    <br/><br />
+                    <div class="form-group">
+                        <label>Seleccione Centro</label>
+                        <select class="form-control" id="CentroLista" ng-required="true" ng-model="Centro.IdCentro" style="float:right;">
+                            <option ng-repeat="centros in Centro" class="{{centros.NombreCentro}}" value="{{centros.IdCentro}}">{{centros.NombreCentro}}</option>
+                        </select>
+                    </div>
+                    <br /><br />
+                    <div class="form-group" >
+                        <div ng-class="{'has-error':coordinacion2.cedula1.$invalid && coordinacion2.cedula1.$touched, 'has-error2':coordinacion2.cedula1.$error.maxlength}">
+                            <label>Cédula</label>
+                            <input class="form-control" ng-required="true" name="cedula1" id="cedula1" type="number" ng-maxlength="10" ng-model="Coordinacion.Cedula" />
+                            <span ng-hide="coordinacion2.cedula1.$error.maxlength">
+                                <span ng-if="coordinacion2.cedula1.$invalid && coordinacion2.cedula1.$dirty" class="help-block">Ingrese la cédula del coordinador</span>
+                            </span>
+                            <span ng-if="coordinacion2.cedula1.$error.maxlength" class="help-block">La cédula puede tener máximo 10 caracteres </span>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:5%">
+                        <div ng-class="{'has-error':coordinacion2.nombre.$invalid && coordinacion2.nombre.$touched, 'has-error2':coordinacion2.nombre.$error.maxlength}">
+                            <label>Nombre</label>
+                            <input class="form-control" ng-required="true" name="nombre" id="nombre" type="text" ng-maxlength="50" ng-model="Coordinacion.Nombre" />
+                            <span ng-hide="coordinacion2.nombre.$error.maxlength">
+                                <span ng-if="coordinacion2.nombre.$invalid && coordinacion2.nombre.$dirty" class="help-block">Ingrese el nombre del coordinador</span>
+                            </span>
+                            <span ng-if="coordinacion2.nombre.$error.maxlength" class="help-block">El nombre puede tener máximo 50 caracteres </span>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:5%">
+                        <div ng-class="{'has-error':coordinacion2.apellido1.$invalid && coordinacion2.apellido1.$touched, 'has-error2':coordinacion2.apellido1.$error.maxlength}">
+                            <label>Apellido</label>
+                            <input class="form-control" ng-required="true" name="apellido1" id="apellido1" type="text" ng-maxlength="50" ng-model="Coordinacion.Apellido" />
+                            <span ng-hide="coordinacion2.apellido1.$error.maxlength">
+                                <span ng-if="coordinacion2.apellido1.$invalid && coordinacion2.apellido1.$dirty" class="help-block">Ingrese el apellido del coordinador</span>
+                            </span>
+                            <span ng-if="coordinacion2.apellido1.$error.maxlength" class="help-block">El apellido puede tener máximo 50 caracteres </span>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:5%">
+                        <div ng-class="{'has-error':coordinacion2.telefono.$invalid && coordinacion2.telefono.$touched, 'has-error2':coordinacion2.telefono.$error.maxlength}">
+                            <label>Teléfono</label>
+                            <input class="form-control" ng-required="true" name="telefono" id="telefono" type="number" ng-maxlength="10" ng-model="Coordinacion.Telefono" />
+                            <span ng-hide="coordinacion2.telefono.$error.maxlength">
+                                <span ng-if="coordinacion2.telefono.$invalid && coordinacion2.telefono.$dirty" class="help-block">Ingrese el teléfono del coordinador</span>
+                            </span>
+                            <span ng-if="coordinacion2.telefono.$error.maxlength" class="help-block">El número de teléfono puede tener máximo 10 caracteres </span>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:5%">
+                        <div ng-class="{'has-error':coordinacion2.correo1.$invalid && coordinacion2.correo1.$touched, 'has-error2':coordinacion2.correo1.$error.maxlength}">
+                            <label>Correo</label>
+                            <input class="form-control" ng-required="true" name="correo1" id="correo1" type="text" ng-maxlength="50" ng-model="Coordinacion.Correo" />
+                            <span ng-hide="coordinacion2.correo1.$error.maxlength">
+                                <span ng-if="coordinacion2.correo1.$invalid && coordinacion2.correo1.$dirty" class="help-block">Ingrese el correo del coordinador</span>
+                            </span>
+                            <span ng-if="coordinacion2.correo1.$error.maxlength" class="help-block">El correo puede tener máximo 50 caracteres </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="GuardarEdicionCoordinacion()">Guardar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal Eliminar Registro-->
+<div class="modal fade" id="modalInhabilitar" role="dialog">
+    <div class="modal-dialog" style="width: 400px;">
+        <!--Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <center>
+                    <h4 style="color:#1C75BB;">
+                        CONFIRMAR INHABILITACIÓN
+                    </h4>
+                </center>
+            </div>
+            <div class="modal-body" style="height: 100px; overflow: auto;">
+                <div class="form-group">
+                    <label>¿Está seguro que desea inhabilitar el registro? </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success  btn-default" data-dismiss="modal" ng-click="inhabilitar()">Aceptar</button>
+                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

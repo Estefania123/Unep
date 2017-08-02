@@ -1,0 +1,469 @@
+﻿<!DOCTYPE html>
+<html ng-app="ProgramacionApp">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link href="Css/bootstrap.min.css" rel="stylesheet" />
+    <link href="Css/font-awesome.css" rel="stylesheet" />
+    <link href="Css/jquery-ui.min.css" rel="stylesheet" />
+    <link href="Css/ng-table.min.css" rel="stylesheet" />
+    <link href="Css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <link href="Css/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <link href="Css/fullcalendar.css" rel="stylesheet" />
+    <link href="Css/fullcalendar.print.css" rel="stylesheet" />
+    <link href="Css/normalize.css" rel="stylesheet" />
+    <link href="Css/demo.css" rel="stylesheet" />
+    <link href="Css/component.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="Css/estilos.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link href="Css/bootstrap-multiselect.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+
+    <style>
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .fc-orden-act {
+            width: 100% !important;
+        }
+
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .navegador {
+            width: 100%;
+            height: 60px;
+            background: #fff;
+            z-index: 10;
+            -webkit-box-shadow: 2px 6px 5px -4px rgba(0,0,0,0.75);
+            -moz-box-shadow: 2px 6px 5px -4px rgba(0,0,0,0.75);
+            box-shadow: 2px 6px 5px -4px rgba(0,0,0,0.75);
+            margin-bottom: 20px;
+            position: fixed;
+        }
+
+            .navegador > .perfil {
+                width: 60px;
+                height: 60px;
+                position: absolute;
+                right: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+
+                .navegador > .perfil > i {
+                    font-size: 30px;
+                    cursor: pointer;
+                    transition: all ease .5s;
+                }
+
+                .navegador > .perfil:hover > i {
+                    color: rgba(0,0,0,0.5);
+                }
+
+        .menu-perfil-act {
+            width: 300px;
+            height: 220px;
+            background: #fff;
+            position: fixed;
+            z-index: 5;
+            top: -1000px;
+            right: 20px;
+            -webkit-box-shadow: 0px 11px 29px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 0px 11px 29px 0px rgba(0,0,0,0.75);
+            box-shadow: 0px 11px 29px 0px rgba(0,0,0,0.75);
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+            .menu-perfil-act > .header {
+                width: 100%;
+                height: 100px;
+                /*background-image: url(img/portada.jpg);*/
+                background-position: center;
+                background-size: cover;
+            }
+
+            .menu-perfil-act > .foto-perfil {
+                width: 50px;
+                height: 50px;
+                border-radius: 100%;
+                border: 3px solid #fff;
+                position: absolute;
+                top: 50%;
+                margin-top: -35px;
+                left: 50%;
+                margin-left: -25px;
+                -webkit-box-shadow: 0px 11px 29px 0px rgba(0,0,0,0.75);
+                -moz-box-shadow: 0px 11px 29px 0px rgba(0,0,0,0.75);
+                box-shadow: 0px 11px 29px 0px rgba(0,0,0,0.75);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+                .menu-perfil-act > .foto-perfil > img {
+                    border-radius: 100%;
+                    width: 50px;
+                    height: 50px;
+                }
+
+            .menu-perfil-act > .header {
+                width: 100%;
+                height: 100px;
+                /*background-image: url(img/portada.jpg);*/
+                background-position: center;
+                background-size: cover;
+            }
+
+        .nombre-usuario {
+            width: 100%;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            padding-top: 20px;
+            align-items: center;
+            color: rgba(0,0,0,.5);
+        }
+
+        .botones-perfil {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 40px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+            .botones-perfil > .cont-botones {
+                width: 50%;
+                height: 100%;
+                background: rgba(0,0,0,.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all ease .5s;
+            }
+
+                .botones-perfil > .cont-botones:hover {
+                    background: rgba(0,0,0,.2);
+                }
+
+
+        .header-navegador {
+            width: 100%;
+            height: 100vh;
+            z-index: 2;
+            color: rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: none;
+        }
+
+        .items-menu-principal {
+            width: 70px;
+            height: 100vh;
+            background: #fff;
+            position: fixed;
+            z-index: 9;
+            left: 0;
+            top: 0;
+            -webkit-box-shadow: 0px 0px 29px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 0px 0px 29px 0px rgba(0,0,0,0.75);
+            box-shadow: 0px 0px 29px 0px rgba(0,0,0,0.75);
+            padding-top: 60px;
+            overflow-x: hidden;
+        }
+
+        .item-mm {
+            width: 250px;
+            height: 59px;
+            background: #fff;
+            border-bottom: 1px solid rgba(0,0,0,.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all ease .5s;
+            text-decoration: none;
+        }
+
+        .icomo-item-mm {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icomo-item-mm {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+            .icomo-item-mm > i {
+                color: rgba(0,0,0,.5);
+                font-size: 30px;
+            }
+
+        .item-mm:hover > .icomo-item-mm > i {
+            color: #fff;
+        }
+
+        .item-mm:hover > .titulo-item-mm {
+            color: #fff;
+        }
+
+        .item-mm:hover {
+            background: #fc7323;
+            color: #fff;
+        }
+
+        .titulo-item-mm {
+            width: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(0,0,0,0.5);
+            height: 100%;
+        }
+
+        .contenedor-tooltip {
+            width: 200px;
+            height: 59px;
+            position: fixed;
+            background: #fc7323;
+            top: 200px;
+            left: 64px;
+            z-index: 1000;
+            -webkit-box-shadow: 2px 3px 38px -13px rgba(0,0,0,0.75);
+            -moz-box-shadow: 2px 3px 38px -13px rgba(0,0,0,0.75);
+            box-shadow: 2px 3px 38px -13px rgba(0,0,0,0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .header-tooltip {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            background: transparent;
+            display: none;
+            top: 0;
+            left: 0;
+        }
+
+        .logo-nav {
+            width: 5%;
+            height: 4%;
+            margin-left: -10px;
+        }
+    </style>
+</head>
+<body ng-controller="PrincipalController" style="float:right; width:100%; background:#238276;">
+    <div id="BodyPrincipal">
+        <div class="header-navegador">
+        </div>
+        <div class="navegador">
+            <div class="col-md-7">
+                <h1>UNEP</h1>
+            </div>
+            <div class="perfil">
+                <i class="material-icons">&#xE853;</i>
+            </div>
+        </div>
+        <div class="menu-perfil-act">
+            <div class="header"></div>
+            <div class="foto-perfil">
+            </div>
+            <div class="nombre-usuario">
+                <label id="username"></label>&ensp;
+            </div>
+            <div class="botones-perfil">
+                <div class="cont-botones" ng-click="AbrirModalCambiarPass()">
+                    <i class="material-icons">&#xE8B8;</i>
+                </div>
+                <div class="cont-botones" ng-click="CerrarSesion()">
+                    <i class="material-icons">&#xE8AC;</i>
+                </div>
+            </div>
+        </div>
+        <div class="items-menu-principal">
+            <div class="item-mm" ng-click="AbrirCentro()">
+                <div class="icomo-item-mm tooltip-panchana" toltip-texto="Centro"><i class="material-icons">domain</i></div>
+                <div class="titulo-item-mm"></div>
+            </div>
+            <div class="item-mm not-coor" ng-click="AbrirArea()">
+                <div class="icomo-item-mm tooltip-panchana" toltip-texto="Área"><i class="material-icons">content_paste</i></div>
+                <div class="titulo-item-mm"></div>
+            </div>
+            <div class="item-mm" ng-click="AbrirCoordinacion()">
+                <div class="icomo-item-mm tooltip-panchana" toltip-texto="Coordinación"><i class="material-icons md-48"> person </i></div>
+                <div class="titulo-item-mm"></div>
+            </div>
+            <div class="item-mm" ng-click="AbrirPrograma()">
+                <div class="icomo-item-mm tooltip-panchana" toltip-texto="Programa"><i class="material-icons md-48" style="z-index:10">computer</i></div>
+                <div class="titulo-item-mm"></div>
+            </div>
+            <div class="item-mm" ng-click="AbrirFicha()">
+                <div class="icomo-item-mm tooltip-panchana" toltip-texto="Ficha"><i class="material-icons">library_books</i></div>
+                <div class="titulo-item-mm"></div>
+            </div>
+            <div class="item-mm" ng-click="AbrirInstructor()">
+                <div class="icomo-item-mm tooltip-panchana" toltip-texto="Instructor"><i class="material-icons">people</i></div>
+                <div class="titulo-item-mm"></div>
+            </div>
+            <div class="item-mm" ng-click="AbrirAprendiz()">
+                <div class="icomo-item-mm tooltip-panchana" toltip-texto="Aprendiz"><i class="material-icons">folder_shared</i></div>
+                <div class="titulo-item-mm"></div>
+            </div>
+        </div>
+    </div>
+    <header>
+        <div id="main" style="float:right; width:100%;">
+            <div ng-view style="margin:0px auto;"></div>
+        </div>
+    </header>
+    <div class="contenedor-tooltip"> </div>
+    <div class="header-tooltip"> </div>
+    <script src="scripts/classie.js"></script>
+    <label class="ejemplo"></label>
+    <div class="modal fade" id="ModalCambiarPass" role="dialog">
+        <div class="modal-dialog" style="width: 400px;">
+            <!--Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4>Recuperar Contraseña</h4>
+                </div>
+                <div class="modal-body" style="overflow: auto;">
+                    <div class="form-group">
+                        <label>Ingrese Contraseña Anterior</label>
+                        <input class="form-control" ng-model="UsuarioCambiarPass.Password" />
+                    </div>
+                    <div class="form-group">
+                        <label>Ingrese Contraseña Nueva</label>
+                        <input class="form-control" ng-model="UsuarioCambiarPass.newPass" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-dismiss="modal" ng-click="CambiarPass()">Aceptar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script>
+    $("#nav").click(function () {
+        var nav = $("#navbar").hasClass("gn-menu-wrapper gn-open-all");
+        if (nav == true) {
+            $(".Principal").css("width", "80%");
+        } else {
+            $(".Principal").css("width", "95%");
+        }
+    });
+    var actu;
+    $(".tooltip-panchana").hover(function () {
+        actu = $(this).attr("toltip-texto");
+        $(".header-tooltip").css("display", "block");
+        $(".contenedor-tooltip").fadeIn();
+        $(".contenedor-tooltip").css("display", "flex");
+        $(".contenedor-tooltip").css("top", $(this).position().top + 6);
+        $(".contenedor-tooltip").css("left", 70);
+        $(".contenedor-tooltip").html($(this).attr("toltip-texto"));
+    });
+
+    $(".header-tooltip").hover(function () {
+        $(".header-tooltip").css("display", "none");
+        $(".contenedor-tooltip").fadeOut();
+    });
+
+</script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
+</script>
+
+<!--Scripts-->
+<script src="scripts/modernizr.custom.js"></script>
+<script src="scripts/alasql.min.js"></script>
+<script src="scripts/xlsx.core.min.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
+<script src="Scripts/angular.min.js"></script>
+<script src="Scripts/angular-animate.min.js"></script>
+<script src="Scripts/angular-aria.min.js"></script>
+<script src="Scripts/angular-material.min.js"></script>
+<script src="Scripts/angular-messages.min.js"></script>
+<script src="Scripts/Angular-Route.js"></script>
+<script src="Scripts/bootbox.min.js"></script>
+<script src="scripts/angular-route1.js"></script>
+<script src="scripts/angular-cookies.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
+<script src="scripts/jsPDF.js"></script>
+<script src="scripts/bootbox.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-dropdown/2.0.3/jquery.dropdown.js"></script>
+<script src="scripts/bootstrap-multiselect.js"></script>
+
+<!--Modelos-->
+<script src="Modelo/General.js"></script>
+<script src="Modelo/Principal.js"></script>
+<script src="Modelo/Filter.js"></script>
+<script src="Modelo/Login/Login.js"></script>
+<script src="Modelo/Login/LoginService.js"></script>
+<script src="Modelo/Centro/Centro.js"></script>
+<script src="Modelo/Centro/CentroService.js"></script>
+<script src="Modelo/Area/Area.js"></script>
+<script src="Modelo/Area/AreaService.js"></script>
+<script src="Modelo/Coordinacion/Coordinacion.js"></script>
+<script src="Modelo/Coordinacion/CoordinacionService.js"></script>
+<script src="Modelo/Programa/Programa.js"></script>
+<script src="Modelo/Programa/ProgramaService.js"></script>
+<script src="Modelo/Instructor/Instructor.js"></script>
+<script src="Modelo/Instructor/InstructorService.js"></script>
+<script src="Modelo/Ficha/Ficha.js"></script>
+<script src="Modelo/Ficha/FichaService.js"></script>
+
+
+
+<!--Scripts-->
+<script src="scripts/dirPagination.js"></script>
+<script src="scripts/ng-table.js"></script>
+<script src="scripts/jquery-ui.custom.min.js"></script>
+<script src="scripts/bootstrap-datepicker.js"></script>
+<script src="scripts/bootstrap-datepicker.es.js"></script>
+<script src="scripts/moment.js"></script>
+<script src="scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script src="scripts/fullcalendar.js"></script>
+<script src="scripts/angular-notify.js"></script>
+<script src="Modelo/Filter.js"></script>
